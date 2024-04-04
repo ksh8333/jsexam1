@@ -2,6 +2,20 @@ const todolist=document.getElementById("todo_list")
 const todoform=document.getElementById('todo_form')
 let todoarr=[];
 
+//로컬저장소저장 todoarr -> 문자열형태로 로컬스토리지에 setitem
+function savetodo(){
+    const todostring=JSON.stringify(todoarr)
+    localStorage.setItem("mytodos",todostring)
+}
+//로컬저장소에서 가져오기
+function loadtodo(){
+    const mytodos = localStorage.getItem("mytodos")
+    
+    todoarr = JSON.parse(mytodos)
+    displaytodo()
+}
+loadtodo()
+
 function deltodo(clicked){
     todoarr=todoarr.map(function(element){
         if(element.todoid===clicked){
@@ -11,6 +25,7 @@ function deltodo(clicked){
         }
     })
     displaytodo();
+    savetodo();
 }
 
 function handletodo(clickid){
@@ -25,6 +40,8 @@ function handletodo(clickid){
 
     })
     console.log(todoarr)
+    displaytodo();
+    savetodo();
 }
 
 function displaytodo(){
@@ -64,4 +81,5 @@ todoform.addEventListener("submit",function(e){
     todoform.todo.value=""
     todoarr.push(addobj)
     displaytodo()
+    savetodo()
 })
